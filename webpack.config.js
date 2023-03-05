@@ -42,7 +42,7 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Welcome to sivaraj-v github ',
+      title: 'Welcome to Sample ',
       template: './src/index.html',
       filename: './index.html',
       'meta': {
