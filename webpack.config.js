@@ -4,14 +4,19 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const {GenerateSW} = require('workbox-webpack-plugin');
+// const {GenerateSW} = require('workbox-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
-
+const options = {
+  fileName: 'manifest.json',
+  basePath:''
+}
 module.exports = {
   entry: path.resolve(__dirname, './src/index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash].js',
+    filename: '[name].js',
   },
   module: {
     rules: [
@@ -34,16 +39,18 @@ module.exports = {
       directory: path.join(__dirname, "dist")
     },
     port: 9000,
-    open: true
   },
   plugins: [
-    new GenerateSW({
-      cacheId: 'sampleSW'
+    new WebpackManifestPlugin(options),
+    new CopyWebpackPlugin({
+      patterns: [{
+        from: './src/sw.js'
+      }],
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Welcome to sivaraj-v github ',
-      template: './src/index.html',
+      title: 'Welcome to Sample',
+      template: './index.html',
       filename: './index.html',
       'meta': {
         'viewport': 'width=device-width, initial-scale=1.0',
